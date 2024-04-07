@@ -99,7 +99,7 @@ app.on("ready", async () => {
     "set-full-screen-interval",
     initFullScreenInterval,
   )
-  isDev && mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
   mainWindow.loadURL(url)
 })
 
