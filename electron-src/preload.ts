@@ -31,8 +31,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
       callback(interval),
     )
   },
-  setBgBlack: (isBgBlack: boolean) =>
-    ipcRenderer.send("set-bg-black", isBgBlack),
+  setBgBlack: (callback: (isBgBlack: boolean) => void) => {
+    ipcRenderer.on("set-bg-black", (_event, isBgBlack) => callback(isBgBlack))
+  },
 })
 
 // Since we disabled nodeIntegration we can reintroduce

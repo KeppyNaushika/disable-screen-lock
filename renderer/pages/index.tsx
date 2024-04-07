@@ -23,13 +23,15 @@ const IndexPage = (): JSX.Element => {
       setInterval(interval)
     })
     window.electronAPI.initDoFullScreen((doFullScreen: boolean) => {
-      setIsBgBlack(true)
       setDoFullScreen(doFullScreen)
     })
     window.electronAPI.initFullScreenInterval((fullScreenInterval: number) => {
       setFullScreenInterval(fullScreenInterval)
     })
-  })
+    window.electronAPI.setBgBlack((newIsBgBlack: boolean) => {
+      setIsBgBlack(newIsBgBlack)
+    })
+  }, [])
 
   return (
     <Layout>

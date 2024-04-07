@@ -16,6 +16,8 @@ const moveMouse = async () => {
   await mouse.move([new Point(mousePos.x, mousePos.y)])
 }
 
+app.disableHardwareAcceleration()
+
 app.on("ready", async () => {
   await prepareNext("./renderer")
 
@@ -23,9 +25,10 @@ app.on("ready", async () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: join(__dirname, "preload.js"),
+      preload: join(app.getAppPath(), "preload.js"),
     },
   })
+  mainWindow.setAutoHideMenuBar(true)
 
   const url = isDev
     ? "http://localhost:8000/"
@@ -61,8 +64,12 @@ app.on("ready", async () => {
         countStopMouseMove = 0
       }
       if (countStopMouseMoveForFullScreen >= fullScreenInterval) {
-        doFullScreen && mainWindow.setFullScreen(true)
-        countStopMouseMoveForFullScreen = 0
+        if (doFullScreen) {
+          mainWindow.setFullScreen(true)
+          mainWindow.webContents.send("set-bg-black", true)
+        } else {
+          countStopMouseMoveForFullScreen = 0
+        }
       }
     } else {
       countStopMouseMove = 0

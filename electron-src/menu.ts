@@ -7,13 +7,6 @@ const menu = (app: Electron.App, mainWindow: BrowserWindow) => {
       label: "Disable Screen Lock",
       submenu: [
         {
-          label: "設定",
-          accelerator: process.platform === "darwin" ? "Cmd+," : "Alt+S",
-          click() {
-            app.quit()
-          },
-        },
-        {
           label: "最小化",
           accelerator: "Space",
           async click() {
@@ -45,22 +38,22 @@ const menu = (app: Electron.App, mainWindow: BrowserWindow) => {
         },
       ],
     },
-    {
-      label: "編集",
-      submenu: [
-        { label: "元に戻す", accelerator: "CmdOrCtrl+Z", role: "undo" },
-        { label: "やり直し", accelerator: "Shift+CmdOrCtrl+Z", role: "redo" },
-        { type: "separator" },
-        { label: "切り取り", accelerator: "CmdOrCtrl+X", role: "cut" },
-        { label: "コピー", accelerator: "CmdOrCtrl+C", role: "copy" },
-        { label: "貼り付け", accelerator: "CmdOrCtrl+V", role: "paste" },
-        {
-          label: "全選択",
-          accelerator: "CmdOrCtrl+A",
-          role: "selectAll",
-        },
-      ],
-    },
+    // {
+    //   label: "編集",
+    //   submenu: [
+    //     { label: "元に戻す", accelerator: "CmdOrCtrl+Z", role: "undo" },
+    //     { label: "やり直し", accelerator: "Shift+CmdOrCtrl+Z", role: "redo" },
+    //     { type: "separator" },
+    //     { label: "切り取り", accelerator: "CmdOrCtrl+X", role: "cut" },
+    //     { label: "コピー", accelerator: "CmdOrCtrl+C", role: "copy" },
+    //     { label: "貼り付け", accelerator: "CmdOrCtrl+V", role: "paste" },
+    //     {
+    //       label: "全選択",
+    //       accelerator: "CmdOrCtrl+A",
+    //       role: "selectAll",
+    //     },
+    //   ],
+    // },
   ]
   return Menu.buildFromTemplate([...mainMenus])
 }
