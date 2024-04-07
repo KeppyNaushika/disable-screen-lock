@@ -10,24 +10,29 @@ declare global {
 }
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  // rendere -> main
-  setShortcut: (page: string) => ipcRenderer.send("set-shortcut", page),
-  sendScorePanel: (arg: string) => {
-    ipcRenderer.send("score-panel", arg)
-  },
-  fetchProjects: () => ipcRenderer.invoke("fetch-projects"),
-  createProject: (props: { examName: string; examDate: Date | null }) => {
-    const { examName, examDate } = props
-    return ipcRenderer.invoke("create-project", examName, examDate)
-  },
+  // renderer -> main
+  setMoveMouseInterval: (moveMouseInterval: number) =>
+    ipcRenderer.send("set-interval", moveMouseInterval),
+  setFullScreen: (doFullScreen: boolean) =>
+    ipcRenderer.send("set-full-screen", doFullScreen),
+  setFullScreenInterval: (interval: number) =>
+    ipcRenderer.send("set-full-screen-interval", interval),
   // main -> renderer
-  scorePanel: (listener: any) => {
-    ipcRenderer.removeAllListeners("score-panel")
-    ipcRenderer.on("score-panel", listener)
+  initMoveMouseInterval: (callback: (interval: number) => void) => {
+    ipcRenderer.on("set-interval", (_event, interval) => callback(interval))
   },
-  removeScorePanelListener: (listener: any) => {
-    ipcRenderer.removeListener("score-panel", listener)
+  initDoFullScreen: (callback: (doFullScreen: boolean) => void) => {
+    ipcRenderer.on("set-full-screen", (_event, doFullScreen) =>
+      callback(doFullScreen),
+    )
   },
+  initFullScreenInterval: (callback: (interval: number) => void) => {
+    ipcRenderer.on("set-full-screen-interval", (_event, interval) =>
+      callback(interval),
+    )
+  },
+  setBgBlack: (isBgBlack: boolean) =>
+    ipcRenderer.send("set-bg-black", isBgBlack),
 })
 
 // Since we disabled nodeIntegration we can reintroduce

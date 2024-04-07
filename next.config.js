@@ -3,7 +3,7 @@
  */
 const nextConfig = {
   // eslint: ["pages"],
-  // output: "export",
+  output: "export",
   images: {
     domains: ["localhost"], // 画像を置いているドメイン
   },

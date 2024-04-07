@@ -1,5 +1,3 @@
-import { type Project } from "@prisma/client"
-
 declare global {
   interface Window {
     electronAPI: myAPI
@@ -7,16 +5,15 @@ declare global {
 }
 
 export interface myAPI {
-  fetchProjects: () => Promise<Project[] | null>
-  createProject: (props: {
-    examName: string
-    examDate: Date | null
-  }) => Promise<void>
-  deleteProject: (project: Project) => Promise<void>
-  sendScorePanel: (arg: string) => unknown
-  removeScorePanelListener: (
-    listener: (_event: Electron.IpcRendererEvent, value: any) => void,
-  ) => unknown
-  setShortcut: (page: string) => void
-  scorePanel: (listener: (_event: any, value: any) => void) => () => void
+  setMoveMouseInterval: (moveMouseInterval: number) => void
+  setDoFullScreen: (doFullScreen: boolean) => void
+  setFullScreenInterval: (fullScreenInterval: number) => void
+  
+  initMoveMouseInterval: (
+    callback: (moveMouseInterval: number) => void,
+  ) => void
+  initDoFullScreen: (callback: (doFullScreen: boolean) => void) => void
+  initFullScreenInterval: (
+    callback: (fullScreenInterval: number) => void,
+  ) => void
 }

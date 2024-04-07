@@ -1,3 +1,4 @@
+import { sleep } from "@nut-tree/nut-js"
 import { BrowserWindow, Menu, MenuItemConstructorOptions } from "electron"
 
 const menu = (app: Electron.App, mainWindow: BrowserWindow) => {
@@ -13,6 +14,15 @@ const menu = (app: Electron.App, mainWindow: BrowserWindow) => {
           },
         },
         {
+          label: "最小化",
+          accelerator: "Space",
+          async click() {
+            mainWindow.setFullScreen(false)
+            await sleep(1000)
+            mainWindow.minimize()
+          },
+        },
+        {
           label: "終了",
           accelerator: process.platform === "darwin" ? "Cmd+Q" : "Control+Q",
           click() {
@@ -20,14 +30,14 @@ const menu = (app: Electron.App, mainWindow: BrowserWindow) => {
           },
         },
         {
-          label: "Toggle Full Screen",
+          label: "全画面表示",
           accelerator: "Ctrl+Command+F",
           click: function () {
             mainWindow.setFullScreen(!mainWindow.isFullScreen())
           },
         },
         {
-          label: "Toggle Developer Tools",
+          label: "開発者ツール",
           accelerator: "Alt+Command+I",
           click: function () {
             mainWindow.webContents.toggleDevTools()
