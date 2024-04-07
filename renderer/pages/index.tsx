@@ -19,6 +19,7 @@ const IndexPage = (): JSX.Element => {
   const [isBgBlack, setIsBgBlack] = React.useState<boolean>(false)
 
   useEffect(() => {
+    console.log(window.electronAPI)
     window.electronAPI.initMoveMouseInterval((interval: number) => {
       setInterval(interval)
     })
@@ -45,6 +46,11 @@ const IndexPage = (): JSX.Element => {
       ) : (
         <div className="flex min-h-screen w-screen items-center justify-center">
           <div className="flex flex-col">
+            <div className="flex items-center justify-around">
+              <div className="text-sm">マウスを動かして Space で最小化</div>
+              <div className="text-sm">Ctrl / Cmd + Q で終了</div>
+            </div>
+            <div className="my-4 border-t-2"></div>
             <div className="flex items-center justify-between px-4 py-2">
               <label htmlFor="intervalInput">カーソルを動かす間隔</label>
               <input
@@ -119,13 +125,15 @@ const IndexPage = (): JSX.Element => {
                 </div>
               </div>
               <div className="my-4 border-t-2"></div>
-              <div
-                className="flex w-48 justify-center rounded-md bg-slate-800 p-4 text-white"
-                onClick={() => {
-                  setIsBgBlack(true)
-                }}
-              >
-                設定を閉じる
+              <div className="flex justify-around">
+                <div
+                  className="flex w-48 justify-center rounded-md bg-slate-800 p-4 text-white"
+                  onClick={() => {
+                    setIsBgBlack(true)
+                  }}
+                >
+                  設定を閉じる
+                </div>
               </div>
             </div>
           </div>

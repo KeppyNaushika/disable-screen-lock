@@ -8,7 +8,7 @@ import isDev from "electron-is-dev"
 import prepareNext from "electron-next"
 import menu from "./menu"
 
-import { mouse, Point } from "@nut-tree/nut-js"
+import { mouse, Point, sleep } from "@nut-tree/nut-js"
 
 const moveMouse = async () => {
   const mousePos = await mouse.getPosition()
@@ -21,11 +21,19 @@ app.disableHardwareAcceleration()
 app.on("ready", async () => {
   await prepareNext("./renderer")
 
+  let preloadPath
+  if (app.isPackaged && process.resourcesPath.endsWith("resources")) {
+    preloadPath = join(process.resourcesPath, "./app/main/preload.js")
+  } else {
+    preloadPath = join(app.getAppPath(), "preload.js")
+  }
+
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: join(app.getAppPath(), "preload.js"),
+      preload: preloadPath,
+      contextIsolation: true,
     },
   })
   mainWindow.setAutoHideMenuBar(true)
@@ -65,6 +73,8 @@ app.on("ready", async () => {
       }
       if (countStopMouseMoveForFullScreen >= fullScreenInterval) {
         if (doFullScreen) {
+          mainWindow.maximize()
+          await sleep(1000)
           mainWindow.setFullScreen(true)
           mainWindow.webContents.send("set-bg-black", true)
         } else {
@@ -99,7 +109,7 @@ app.on("ready", async () => {
     "set-full-screen-interval",
     initFullScreenInterval,
   )
-  mainWindow.webContents.openDevTools()
+  isDev && mainWindow.webContents.openDevTools()
   mainWindow.loadURL(url)
 })
 
